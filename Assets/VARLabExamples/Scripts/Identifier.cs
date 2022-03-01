@@ -13,6 +13,7 @@ namespace TigerTail
         public string internalObject;
         public float rayLength = 100;
         public LayerMask layermask;
+        public float appliedForce = 15000f;
 
         public Transform holdParent;
 
@@ -96,7 +97,7 @@ namespace TigerTail
 
             heldObject.transform.parent = null;
             heldObject = null;
-            heldRig.AddForce(Camera.main.transform.forward * 20000f);
+            heldRig.AddForce(Camera.main.transform.forward * appliedForce);
         }
 
     }
