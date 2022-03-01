@@ -1,26 +1,91 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-
-public class Identifier : MonoBehaviour
+namespace TigerTail
 {
-    public float rayLength;
-    public LayerMask layermask;
-
-    private void Update()
+    
+    public class Identifier : MonoBehaviour
     {
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
+        public static string selectedObject;
+        public string internalObject;
+        public float rayLength = 100;
+        public LayerMask layermask;
+
+        public Transform holdParent;
+
+        private GameObject heldObject;
+
+        public float moveForce = 250;
+
+        private void Update()
         {
-            RaycastHit hit;
 
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            if(Physics.Raycast(ray, out hit, rayLength, layermask))
+            if (Input.GetKeyDown(KeyCode.E))
             {
-                Debug.Log(hit.collider.name);
+                if(heldObject == null)
+                {
+                    RaycastHit hit;
+
+                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayLength))
+                    {
+                        var selection = hit.transform;
+
+                        PickupObject(selection.gameObject);
+                    }
+                }
+                else
+                {
+                    DropObject();
+                }
+               
+            }
+
+            if(heldObject != null)
+            {
+                MoveObject();
+            }
+            
+        }
+
+        void MoveObject()
+        {
+            if(Vector3.Distance(heldObject.transform.position, holdParent.position) > 0.1f)
+            {
+                Vector3 moveDirection = (holdParent.position - heldObject.transform.position);
+                heldObject.GetComponent<Rigidbody>().AddForce(moveDirection * moveForce);
             }
         }
+
+        void PickupObject(GameObject pickObj)
+        {
+            if(pickObj.GetComponent<Rigidbody>())
+            {
+                Rigidbody objRig = pickObj.GetComponent<Rigidbody>();
+                objRig.useGravity = false;
+                objRig.drag = 10;
+
+                objRig.transform.parent = holdParent;
+                heldObject = pickObj;
+            }
+        }
+
+        void DropObject()
+        {
+            Rigidbody heldRig = heldObject.GetComponent<Rigidbody>();
+
+            heldRig.useGravity = true;
+            heldRig.drag = 1;
+
+            heldObject.transform.parent = null;
+            heldObject = null;
+            
+        }
+       
     }
 }
+
