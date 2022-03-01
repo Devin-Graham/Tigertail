@@ -40,7 +40,8 @@ namespace TigerTail
                 }
                 else
                 {
-                    DropObject();
+                    //DropObject();
+                    ThrowObject();
                 }
                
             }
@@ -85,7 +86,19 @@ namespace TigerTail
             heldObject = null;
             
         }
-       
+
+        public void ThrowObject()
+        {
+            Rigidbody heldRig = heldObject.GetComponent<Rigidbody>();
+
+            heldRig.useGravity = true;
+            heldRig.drag = 1;
+
+            heldObject.transform.parent = null;
+            heldObject = null;
+            heldRig.AddForce(Camera.main.transform.forward * 20000f);
+        }
+
     }
 }
 
