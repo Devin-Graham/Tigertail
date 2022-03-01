@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace TigerTail
 {
@@ -35,7 +36,8 @@ namespace TigerTail
             rb = GetComponent<Rigidbody>();
         }
 
-        private void OnCollisionEnter(Collision collision)
+
+       private void OnCollisionEnter(Collision collision)
         {
             switch (state)
             {
