@@ -30,8 +30,6 @@ namespace TigerTail
                 {
                     RaycastHit hit;
 
-                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
                     if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, rayLength))
                     {
                         var selection = hit.transform;
@@ -41,10 +39,16 @@ namespace TigerTail
                 }
                 else
                 {
-                    //DropObject();
-                    ThrowObject();
+                    DropObject();
                 }
                
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                if(heldObject != null)
+                {
+                    ThrowObject();
+                }
             }
 
             if(heldObject != null)
