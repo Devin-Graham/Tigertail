@@ -65,6 +65,8 @@ public class GrapplingGun : MonoBehaviour
 
             isGrappling = true;
 
+            player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 800.0f);
+
         }
     }
 
@@ -81,7 +83,7 @@ public class GrapplingGun : MonoBehaviour
     {
         lr.positionCount = 0;
         Destroy(joint);
-        player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * grappleForce);
+        player.GetComponent<Rigidbody>().AddForce(Camera.main.transform.forward * 1000.0f);
 
     }
 }
