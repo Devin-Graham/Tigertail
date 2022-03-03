@@ -34,7 +34,7 @@ namespace TigerTail
             /// <summary>This object is being thrown.</summary>
             Thrown
         }
-        private State state = State.Pickup;
+        public State state = State.Pickup;
 
         [Tooltip("Damage dealt by a snowball impact to any classes that implement the IDamageable interface.\nNote: Nothing in the base project implements IDamageable.")]
         [SerializeField] private float impactDamage = 5f;
